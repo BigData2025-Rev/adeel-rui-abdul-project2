@@ -2,10 +2,20 @@ import numpy as np
 import pandas as pd
 import os
 
-def data_generator():
-  products = pd.read_csv('/content/products.csv')
-  categories = pd.read_csv('/content/categories.csv')
+# read the products json file and store in pandas dataframe
+with open('./products_data/products.json', 'r') as file:
+    data = pd.read_json(file)
+categories = data['categories']
+rows = []
+for category, products in categories.items():
+    for product in products:
+        rows.append({"name": product["product"], "price": product["price"], "category": category})
+products = pd.DataFrame(rows)
+products['id'] = pd.util.hash_pandas_object(products['name'])
+categories = products['category'].unique()
 
+def data_generator():
+  
   """
   define trendline
   先是日期，圣诞节，春节，黑色星期五，几率更高
@@ -24,3 +34,4 @@ def data_generator():
     - 如果是圣诞节，春节，食品几率拉高
   """ 
   
+print(products.head())
