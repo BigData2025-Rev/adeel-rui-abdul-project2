@@ -1,0 +1,101 @@
+{
+    "categories": {
+      "FurnitureAndAppliances": [
+        { "product": "Sofa", "price": "$500" },
+        { "product": "Bed and Mattress", "price": "$700" },
+        { "product": "Dining Table and Chairs", "price": "$350" },
+        { "product": "Wardrobe", "price": "$400" },
+        { "product": "Refrigerator", "price": "$800" },
+        { "product": "Air Conditioner", "price": "$600" }
+      ],
+      "Computers": [
+        { "product": "Laptop", "price": "$1000" },
+        { "product": "Desktop", "price": "$1200" },
+        { "product": "Monitor", "price": "$200" },
+        { "product": "Keyboard and Mouse", "price": "$50" },
+        { "product": "Tablet", "price": "$500" }
+      ],
+      "Food": [
+        { "product": "Snacks", "price": "$5" },
+        { "product": "Frozen Food", "price": "$10" },
+        { "product": "Fresh Fruits", "price": "$15" },
+        { "product": "Organic Vegetables", "price": "$20" }
+      ],
+      "Condiments": [
+        { "product": "Salt", "price": "$2" },
+        { "product": "Soy Sauce", "price": "$3" },
+        { "product": "Chili Sauce", "price": "$4" },
+        { "product": "Cooking Oil", "price": "$8" }
+      ],
+      "Clothing": [
+        { "product": "Men's Clothing", "price": "$50" },
+        { "product": "Women's Clothing", "price": "$60" },
+        { "product": "Sportswear", "price": "$40" },
+        { "product": "Accessories", "price": "$20" }
+      ],
+      "Beverages": [
+        { "product": "Soda", "price": "$2" },
+        { "product": "Mineral Water", "price": "$1" },
+        { "product": "Coffee", "price": "$5" },
+        { "product": "Wine", "price": "$15" }
+      ],
+      "Toys": [
+        { "product": "Puzzle Toy", "price": "$10" },
+        { "product": "Building Blocks", "price": "$25" },
+        { "product": "Remote Control Toy", "price": "$30" },
+        { "product": "Stuffed Toy", "price": "$15" }
+      ],
+      "BabyProducts": [
+        { "product": "Baby Food", "price": "$10" },
+        { "product": "Diapers", "price": "$20" },
+        { "product": "Stroller", "price": "$150" },
+        { "product": "Baby Skincare", "price": "$8" }
+      ],
+      "Books": [
+        { "product": "Novels", "price": "$15" },
+        { "product": "Children's Books", "price": "$10" },
+        { "product": "Textbooks", "price": "$40" },
+        { "product": "Self-help Books", "price": "$20" }
+      ],
+      "Music": [
+        { "product": "CD", "price": "$12" },
+        { "product": "Vinyl Records", "price": "$25" },
+        { "product": "Musical Instruments", "price": "$300" }
+      ],
+      "Movies": [
+        { "product": "Blu-ray", "price": "$15" },
+        { "product": "Digital Download", "price": "$10" },
+        { "product": "Movie Merchandise", "price": "$20" }
+      ],
+      "Games": [
+        { "product": "Video Game", "price": "$60" },
+        { "product": "Game Console", "price": "$300" },
+        { "product": "Board Game", "price": "$30" }
+      ],
+      "OfficeEquipment": [
+        { "product": "Printer", "price": "$150" },
+        { "product": "Scanner", "price": "$120" },
+        { "product": "Office Desk", "price": "$200" },
+        { "product": "Stationery", "price": "$10" }
+      ],
+      "HealthAndBeauty": [
+        { "product": "Skincare Products", "price": "$30" },
+        { "product": "Makeup", "price": "$50" },
+        { "product": "Fitness Equipment", "price": "$200" },
+        { "product": "Health Supplements", "price": "$25" }
+      ],
+      "Automotive": [
+        { "product": "Car Accessories", "price": "$50" },
+        { "product": "Tires", "price": "$100" },
+        { "product": "Car Wash Supplies", "price": "$20" },
+        { "product": "Car Seats", "price": "$150" }
+      ],
+      "SportsAndOutdoors": [
+        { "product": "Fitness Equipment", "price": "$300" },
+        { "product": "Camping Gear", "price": "$200" },
+        { "product": "Yoga Mat", "price": "$20" },
+        { "product": "Cycling Gear", "price": "$150" }
+      ]
+    }
+  }
+  
