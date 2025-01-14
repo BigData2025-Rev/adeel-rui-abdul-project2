@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # read the products json file and store in pandas dataframe
-with open('./products_data/products.json', 'r') as file:
+with open('./data/products.json', 'r') as file:
     data = pd.read_json(file)
 categories = data['categories']
 rows = []
