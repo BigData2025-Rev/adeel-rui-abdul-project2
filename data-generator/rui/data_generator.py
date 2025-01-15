@@ -4,8 +4,9 @@ import os
 import random
 from datetime import datetime, timedelta
 from collections import Counter
+import time
 
-def data_generator():
+def data_generator(num=15000):
 
   script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -193,8 +194,7 @@ def data_generator():
     return result
 
   def getOrderId():
-    order_id_counter += 1
-    return order_id_counter
+    return int(time.time() * 1000)
   
   def getCustomerId(country):
     return random.choice(customers[customers['country'] == country]['id'].tolist())
@@ -224,7 +224,7 @@ def data_generator():
     return random.choice(websites)
   
   def getTxnId():
-    return 10000 - order_id_counter
+    return int(time.time() * 1000)
   
   def getSuccess():
     seed = random.random()
@@ -238,4 +238,50 @@ def data_generator():
     reasons = ['Invalid CVV', 'You failed because I want you fail, go report me!', 'Insufficient deposit', 'Crime found, already called FBI']
     return random.choice(reasons)  
 
-data_generator()
+  def generateOneRecord():
+    date = getDate()
+    country = getCountry(date)
+    city = getCity(country)
+    category = getCategory(date, country)
+    product = getProduct(date, country, category)
+
+    orderId = getOrderId()
+    customerId = getCustomerId(country)
+    customerName = getCustomerName(customerId)
+    payment = getPaymentType(country)
+    qty = getQty()
+    price = getPrice(product)
+    website = getWebsite(country)
+    txnid = getTxnId()
+    success = getSuccess()
+    reason = getFailureReason(success)
+
+    newRecord = {
+      "order_id": orderId,
+      "customer_id": customerId,
+      "customer_name": customerName,
+      "product_id": getProductId(product),
+      "product_name": product,
+      "product_category": category,
+      "payment_type": payment,
+      "qty": qty,
+      "price": price,
+      "datetime": date,
+      "country": country,
+      "city": city,
+      "ecommerce_website_name": website,
+      "payment_txn_id": txnid,
+      "payment_txn_success": success,
+      "failure_reason": reason,
+    }
+    return newRecord
+
+  def generateRecords(num):
+    records = []
+    for i in range(num):
+      records.append(generateOneRecord())
+    return records
+
+  return pd.DataFrame(generateRecords(num))
+
+whole_df = data_generator()
