@@ -332,5 +332,5 @@ print(whole_df['qty'].unique())
 print(final_df['qty'].unique())
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-whole_df.to_csv(os.path.join(script_dir, "data", "whole_df.csv"))
-final_df.to_csv(os.path.join(script_dir, "data", "final_df.csv"))
+whole_df.to_csv(os.path.join(script_dir, "data", "whole_df.csv"), index=False)
+final_df.to_csv(os.path.join(script_dir, "data", "final_df.csv"), index=False)
