@@ -1,19 +1,29 @@
 {
     "categories": {
-      "FurnitureAndAppliances": [
+        "FurnitureAndAppliances": [
         { "product": "Sofa", "price": "$500" },
         { "product": "Bed and Mattress", "price": "$700" },
         { "product": "Dining Table and Chairs", "price": "$350" },
         { "product": "Wardrobe", "price": "$400" },
         { "product": "Refrigerator", "price": "$800" },
-        { "product": "Air Conditioner", "price": "$600" }
+        { "product": "Air Conditioner", "price": "$600" },
+        { "product": "Coffee Table", "price": "$150" },
+        { "product": "Bookshelf", "price": "$200" },
+        { "product": "TV Stand", "price": "$250" },
+        { "product": "Washing Machine", "price": "$550" },
+        { "product": "Dryer", "price": "$450" }
       ],
       "Computers": [
         { "product": "Laptop", "price": "$1000" },
         { "product": "Desktop", "price": "$1200" },
         { "product": "Monitor", "price": "$200" },
         { "product": "Keyboard and Mouse", "price": "$50" },
-        { "product": "Tablet", "price": "$500" }
+        { "product": "Tablet", "price": "$500" },
+        { "product": "Webcam", "price": "$75" },
+        { "product": "Printer", "price": "$150" },
+        { "product": "External Hard Drive", "price": "$100" },
+        { "product": "USB Flash Drive", "price": "$20" },
+        { "product": "Computer Speakers", "price": "$60" }
       ],
       "Food": [
         { "product": "Snacks", "price": "$5" },
@@ -23,73 +33,98 @@
         { "product": "Christmas Gingerbread Cookies", "price": "$8" },
         { "product": "Christmas Roasted Turkey", "price": "$50" },
         { "product": "Spring Festival Dumplings", "price": "$12" },
-        { "product": "Spring Festival Rice Cakes", "price": "$10" }
+        { "product": "Spring Festival Rice Cakes", "price": "$10" },
+        { "product": "Canned Goods", "price": "$3" },
+        { "product": "Pasta", "price": "$2" },
+        { "product": "Rice", "price": "$5" },
+        { "product": "Bread", "price": "$3" }
       ],
       "Condiments": [
         { "product": "Salt", "price": "$2" },
         { "product": "Soy Sauce", "price": "$3" },
         { "product": "Chili Sauce", "price": "$4" },
-        { "product": "Cooking Oil", "price": "$8" }
+        { "product": "Cooking Oil", "price": "$8" },
+        { "product": "Vinegar", "price": "$3" },
+        { "product": "Ketchup", "price": "$4" }
       ],
-      "Warm Clothing": [
+      "WarmClothing": [
         { "product": "Men's Cotton-padded Clothes", "price": "$50" },
         { "product": "Women's Cotton-padded Clothes", "price": "$60" },
         { "product": "Sweater", "price": "$35" },
         { "product": "Beanie Hat", "price": "$10" },
-        { "product": "Leather Gloves", "price": "$25" }
+        { "product": "Leather Gloves", "price": "$25" },
+          { "product": "Winter Coat", "price": "$100" },
+          { "product": "Scarf", "price": "$15" },
+          { "product": "Thermal Underwear", "price": "$30" }
       ],
-      "Cooling Clothing": [
+      "CoolingClothing": [
         { "product": "Men's T-shirt", "price": "$10" },
         { "product": "Women's T-shirt", "price": "$10" },
         { "product": "Sun Protection Hat", "price": "$20" },
         { "product": "Lightweight Hoodie", "price": "$25" },
-        { "product": "Cooling Arm Sleeves", "price": "$8" }
+        { "product": "Cooling Arm Sleeves", "price": "$8" },
+        { "product": "Shorts", "price": "$15" },
+        { "product": "Sunglasses", "price": "$20" }
       ],
       "Beverages": [
         { "product": "Soda", "price": "$2" },
         { "product": "Mineral Water", "price": "$1" },
         { "product": "Coffee", "price": "$5" },
-        { "product": "Wine", "price": "$15" }
+        { "product": "Wine", "price": "$15" },
+        { "product": "Juice", "price": "$4" },
+        { "product": "Tea", "price": "$3" }
       ],
       "Toys": [
         { "product": "Puzzle Toy", "price": "$10" },
         { "product": "Building Blocks", "price": "$25" },
         { "product": "Remote Control Toy", "price": "$30" },
         { "product": "Gift Toy", "price": "$30" },
-        { "product": "Stuffed Toy", "price": "$15" }
+        { "product": "Stuffed Toy", "price": "$15" },
+        { "product": "Board Game", "price": "$20" },
+          { "product": "Action Figure", "price": "$12" }
       ],
       "BabyProducts": [
         { "product": "Baby Food", "price": "$10" },
         { "product": "Diapers", "price": "$20" },
         { "product": "Stroller", "price": "$150" },
-        { "product": "Baby Skincare", "price": "$8" }
+        { "product": "Baby Skincare", "price": "$8" },
+          { "product": "Baby Bottles", "price": "$15" },
+          { "product": "Baby Clothes", "price": "$25" }
       ],
       "Books": [
         { "product": "Novels", "price": "$15" },
         { "product": "Children's Books", "price": "$10" },
         { "product": "Textbooks", "price": "$40" },
-        { "product": "Self-help Books", "price": "$20" }
+        { "product": "Self-help Books", "price": "$20" },
+          { "product": "Cookbooks", "price": "$25" },
+          { "product": "Biographies", "price": "$18" }
       ],
       "Music": [
         { "product": "CD", "price": "$12" },
         { "product": "Vinyl Records", "price": "$25" },
-        { "product": "Musical Instruments", "price": "$300" }
+        { "product": "Musical Instruments", "price": "$300" },
+          { "product": "Headphones", "price": "$50" },
+          { "product": "Portable Speaker", "price": "$40" }
       ],
       "Movies": [
         { "product": "Blu-ray", "price": "$15" },
         { "product": "Digital Download", "price": "$10" },
-        { "product": "Movie Merchandise", "price": "$20" }
+        { "product": "Movie Merchandise", "price": "$20" },
+          { "product": "Popcorn", "price": "$5" }
       ],
       "Games": [
         { "product": "Video Game", "price": "$60" },
         { "product": "Game Console", "price": "$300" },
-        { "product": "Board Game", "price": "$30" }
+        { "product": "Board Game", "price": "$30" },
+          { "product": "Gaming Accessories", "price": "$40" }
       ],
       "OfficeEquipment": [
         { "product": "Printer", "price": "$150" },
         { "product": "Scanner", "price": "$120" },
         { "product": "Office Desk", "price": "$200" },
-        { "product": "Stationery", "price": "$10" }
+        { "product": "Stationery", "price": "$10" },
+          { "product": "Office Chair", "price": "$100" },
+          { "product": "Paper Shredder", "price": "$60" }
       ],
       "HealthAndBeauty": [
         { "product": "Skincare Products", "price": "$30" },

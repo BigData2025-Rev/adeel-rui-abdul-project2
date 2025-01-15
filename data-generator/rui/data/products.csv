@@ -1,0 +1,111 @@
+name,price,category,id
+Sofa,$500,FurnitureAndAppliances,8922028235241345997
+Bed and Mattress,$700,FurnitureAndAppliances,16761804574918411935
+Dining Table and Chairs,$350,FurnitureAndAppliances,9524492763835042160
+Wardrobe,$400,FurnitureAndAppliances,9008696852101859280
+Refrigerator,$800,FurnitureAndAppliances,13078804370274200233
+Air Conditioner,$600,FurnitureAndAppliances,14946995402087979752
+Coffee Table,$150,FurnitureAndAppliances,14418196972751854383
+Bookshelf,$200,FurnitureAndAppliances,12008532830878658316
+TV Stand,$250,FurnitureAndAppliances,1041065207119889150
+Washing Machine,$550,FurnitureAndAppliances,2229410083117266511
+Dryer,$450,FurnitureAndAppliances,3213173355056588127
+Laptop,$1000,Computers,13389281857635127270
+Desktop,$1200,Computers,13964222627244931727
+Monitor,$200,Computers,458248461962150596
+Keyboard and Mouse,$50,Computers,18402762541955891253
+Tablet,$500,Computers,9100089699300802137
+Webcam,$75,Computers,3806714425411534973
+Printer,$150,Computers,4625057630598168854
+External Hard Drive,$100,Computers,8290228546414595143
+USB Flash Drive,$20,Computers,14282127254991108845
+Computer Speakers,$60,Computers,768824974356102073
+Snacks,$5,Food,34735359949860213
+Frozen Food,$10,Food,426251772378481521
+Fresh Fruits,$15,Food,245595323685018007
+Organic Vegetables,$20,Food,9663401573111074913
+Christmas Gingerbread Cookies,$8,Food,5046288268300635188
+Christmas Roasted Turkey,$50,Food,17866241399640236962
+Spring Festival Dumplings,$12,Food,7459860166221029133
+Spring Festival Rice Cakes,$10,Food,12224444780255822028
+Canned Goods,$3,Food,3712736963929970389
+Pasta,$2,Food,11891571515910829354
+Rice,$5,Food,1927080557616490259
+Bread,$3,Food,9016050138896384499
+Salt,$2,Condiments,8383864511115324942
+Soy Sauce,$3,Condiments,14281849205090365322
+Chili Sauce,$4,Condiments,18226667837219768442
+Cooking Oil,$8,Condiments,217168685612798726
+Vinegar,$3,Condiments,10257828062685434747
+Ketchup,$4,Condiments,9261007488060716779
+Men's Cotton-padded Clothes,$50,WarmClothing,8274444135193000024
+Women's Cotton-padded Clothes,$60,WarmClothing,17487565670353439394
+Sweater,$35,WarmClothing,12145154726848890796
+Beanie Hat,$10,WarmClothing,18394699580320542136
+Leather Gloves,$25,WarmClothing,15810585677199712669
+Winter Coat,$100,WarmClothing,16662554708165608892
+Scarf,$15,WarmClothing,12079358467753868040
+Thermal Underwear,$30,WarmClothing,14201550199453843151
+Men's T-shirt,$10,CoolingClothing,17967422206024237502
+Women's T-shirt,$10,CoolingClothing,8341907413123237378
+Sun Protection Hat,$20,CoolingClothing,3334546410534341293
+Lightweight Hoodie,$25,CoolingClothing,10962936898465578027
+Cooling Arm Sleeves,$8,CoolingClothing,4455604589035762367
+Shorts,$15,CoolingClothing,11562386967099897736
+Sunglasses,$20,CoolingClothing,11834253004284543665
+Soda,$2,Beverages,2077069962269817706
+Mineral Water,$1,Beverages,10433375782674930973
+Coffee,$5,Beverages,13318197935481490955
+Wine,$15,Beverages,15916110426668244283
+Juice,$4,Beverages,2946461052652565886
+Tea,$3,Beverages,6077459658146793005
+Puzzle Toy,$10,Toys,10731832263612788509
+Building Blocks,$25,Toys,2589161407135740037
+Remote Control Toy,$30,Toys,5126714166926274162
+Gift Toy,$30,Toys,16789224270282698701
+Stuffed Toy,$15,Toys,7971482883023747625
+Board Game,$20,Toys,12362486389745327309
+Action Figure,$12,Toys,14663662127177200484
+Baby Food,$10,BabyProducts,12378546348926387194
+Diapers,$20,BabyProducts,18403125079781410077
+Stroller,$150,BabyProducts,9527358254734812133
+Baby Skincare,$8,BabyProducts,7993811857954195256
+Baby Bottles,$15,BabyProducts,6294257330599576051
+Baby Clothes,$25,BabyProducts,9113257593067748572
+Novels,$15,Books,16104413984269983978
+Children's Books,$10,Books,1506954109831175618
+Textbooks,$40,Books,2995929506447929509
+Self-help Books,$20,Books,638921071387340210
+Cookbooks,$25,Books,15644115605370587019
+Biographies,$18,Books,371897835704393430
+CD,$12,Music,6391796652894836743
+Vinyl Records,$25,Music,17796167310030729618
+Musical Instruments,$300,Music,5857113080992790938
+Headphones,$50,Music,13585979053126034877
+Portable Speaker,$40,Music,1591731662423601720
+Blu-ray,$15,Movies,8857201779539521608
+Digital Download,$10,Movies,9180515803077320148
+Movie Merchandise,$20,Movies,9995430198871095329
+Popcorn,$5,Movies,6769511407497702315
+Video Game,$60,Games,13706062073907151090
+Game Console,$300,Games,9790737111322696784
+Board Game,$30,Games,13899326133760130760
+Gaming Accessories,$40,Games,1821658381717307060
+Printer,$150,OfficeEquipment,6943286277975178478
+Scanner,$120,OfficeEquipment,13950475433571660249
+Office Desk,$200,OfficeEquipment,13808717506055875834
+Stationery,$10,OfficeEquipment,14572869424626016506
+Office Chair,$100,OfficeEquipment,16271770744776487140
+Paper Shredder,$60,OfficeEquipment,13727480476311076868
+Skincare Products,$30,HealthAndBeauty,6918198614977363487
+Makeup,$50,HealthAndBeauty,5144394685992336526
+Fitness Equipment,$200,HealthAndBeauty,252634707996452108
+Health Supplements,$25,HealthAndBeauty,11100407733774504957
+Car Accessories,$50,Automotive,4573982004329471064
+Tires,$100,Automotive,17466610943825704646
+Car Wash Supplies,$20,Automotive,6216671710524239618
+Car Seats,$150,Automotive,1669154530158260524
+Fitness Equipment,$300,SportsAndOutdoors,18071463105568498729
+Camping Gear,$200,SportsAndOutdoors,11283326787884104876
+Yoga Mat,$20,SportsAndOutdoors,10511479536038140999
+Cycling Gear,$150,SportsAndOutdoors,5001654440733810561
