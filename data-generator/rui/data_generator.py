@@ -25,15 +25,15 @@ def data_generator(num=15000):
     'OfficeEquipment', 'HealthAndBeauty', 'Automotive',
     'SportsAndOutdoors'
   """
-  Category_Weights = {category:0.5 for category in products['category'].unique()}
-  Category_Weights['Computers'] = 6
-  Category_Weights['FurnitureAndAppliances'] = 3.5
-  Category_Weights['WarmClothing'] = 2.75
-  Category_Weights['CoolingClothing'] = 2.75
-  Category_Weights['Automotive'] = 2.5
-  Category_Weights['Food'] = 2.5
-  Category_Weights['Beverages'] = 1.75
-  Category_Weights['Toys'] = 1.5
+  Category_Weights = {category:1 for category in products['category'].unique()}
+  Category_Weights['Computers'] = 4
+  Category_Weights['FurnitureAndAppliances'] = 2
+  Category_Weights['WarmClothing'] = 1
+  Category_Weights['CoolingClothing'] = 1
+  Category_Weights['Automotive'] = 1.5
+  Category_Weights['Food'] = 1.5
+  Category_Weights['Beverages'] = 1.5
+  Category_Weights['Toys'] = 1.2
 
 
   Special_Dates = {
@@ -78,7 +78,7 @@ def data_generator(num=15000):
   
 
   def getDate():
-    isSpecialDate = 0.5 # rate of special date purchases
+    isSpecialDate = 0.25 # rate of special date purchases
     random_float = random.random()
     if random_float < isSpecialDate:
       # if festival date
@@ -141,6 +141,7 @@ def data_generator(num=15000):
       continent_series = Cities[Cities["Country"] == country]["Continent"]
       if not continent_series.empty and continent_series.iloc[0] == "Asia":
         weights['Computers'] += 1
+        weights['HealthAndBeauty'] += 4
         weights['Food'] += 3
         weights['Condiments'] += 2
     # Chrisms
@@ -210,7 +211,22 @@ def data_generator(num=15000):
       return random.choice(['Weixin', 'Taobao', 'Paypal'])
     return random.choice(['Visa', 'Apple Pay', 'Paypal'])
   
-  def getQty():
+  def getQty(category):
+    """
+    categories:
+      'FurnitureAndAppliances', 'Computers', 'Food', 'Condiments',
+      'WarmClothing', 'CoolingClothing', 'Beverages', 'Toys',
+      'BabyProducts', 'Books', 'Music', 'Movies', 'Games',
+      'OfficeEquipment', 'HealthAndBeauty', 'Automotive',
+      'SportsAndOutdoors'
+    """
+    if category in ['FurnitureAndAppliances', 'Computers', 'Automotive']:
+      return random.choice([1,1,1,1,1,1,1,1,1,1,2])
+    elif category in ['Food', 'Condiments', 'Beverages', 'Toys']:
+      return random.choice([1,1,1,2,2,3,4])
+    elif category in ['OfficeEquipment']:
+      return random.choice([1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,10,12,13,14])
+    
     return random.choice([1,1,1,1,1,1,1,2,2,2,2,3,3,4])
   
   def getPrice(product):
@@ -219,8 +235,10 @@ def data_generator(num=15000):
   def getWebsite(country):
     websites = ['www.amazon.com', 'www.ftatacliq.com', 'www.ebay.com']
     if country == 'China':
+      websites = []
       websites.append('www.taobao.com')
       websites.append('www.tianmao.com')
+      return random.choice(websites)
     return random.choice(websites)
   
   def getTxnId():
@@ -232,10 +250,15 @@ def data_generator(num=15000):
       return 'N'
     return 'Y'
   
-  def getFailureReason(success):
+  def getFailureReason(success, country):
     if success == 'Y':
       return ""
-    reasons = ['Invalid CVV', 'You failed because I want you fail, go report me!', 'Insufficient deposit', 'Crime found, already called FBI']
+    reasons = ['Invalid CVV', 'You failed because I want you fail, go report me!', 'Insufficient deposit', 'Account not recognized.']
+    if country == 'China':
+      reasons.append('Network Error.')
+      reasons.append('Network Error.')
+      reasons.append('Network Error.')
+      reasons.append('Network Error.')
     return random.choice(reasons)  
 
   def generateOneRecord():
@@ -249,12 +272,12 @@ def data_generator(num=15000):
     customerId = getCustomerId(country)
     customerName = getCustomerName(customerId)
     payment = getPaymentType(country)
-    qty = getQty()
+    qty = getQty(category)
     price = getPrice(product)
     website = getWebsite(country)
     txnid = getTxnId()
     success = getSuccess()
-    reason = getFailureReason(success)
+    reason = getFailureReason(success, country)
 
     newRecord = {
       "order_id": orderId,
@@ -277,11 +300,37 @@ def data_generator(num=15000):
     return newRecord
 
   def generateRecords(num):
-    records = []
-    for i in range(num):
-      records.append(generateOneRecord())
-    return records
+    return [generateOneRecord() for _ in range(num)]
 
   return pd.DataFrame(generateRecords(num))
 
+
+def rogue_records(df, percent=0.05):
+    
+    df = df.copy()
+
+    for index, row in df.iterrows():
+        # seed to determine if rogue the record
+        seed = random.random()
+        if seed < percent:
+            if seed < 0.01:
+                df.at[index, 'datetime'] = "2077-10-31" if seed < 0.005 else "1900-01-01"
+            elif seed < 0.02:
+                df.at[index, 'qty'] = -random.randint(1, 100)
+            elif seed < 0.03:
+                df.at[index, 'order_id'] = None 
+            elif seed < 0.04:
+                df.at[index, 'payment_txn_success'] = 'WOW!WOW!WOW!WOW!' 
+            else:
+                df.at[index, 'customer_name'] = None 
+    return df
+
 whole_df = data_generator()
+final_df = rogue_records(whole_df, 0.05)
+
+print(whole_df['qty'].unique())
+print(final_df['qty'].unique())
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+whole_df.to_csv(os.path.join(script_dir, "data", "whole_df.csv"))
+final_df.to_csv(os.path.join(script_dir, "data", "final_df.csv"))
