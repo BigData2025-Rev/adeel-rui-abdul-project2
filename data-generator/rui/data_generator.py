@@ -6,9 +6,13 @@ from datetime import datetime, timedelta
 from collections import Counter
 
 def data_generator():
-  
-  # read the products json file and store in pandas dataframe
+
   script_dir = os.path.dirname(os.path.abspath(__file__))
+
+  order_id_counter = 0
+  customers = pd.read_csv(os.path.join(script_dir, "data", "customers.csv"))
+
+  # read the products json file and store in pandas dataframe
   products_path = os.path.join(script_dir, "data", "products.csv")
   products = pd.read_csv(products_path)
   
@@ -27,7 +31,8 @@ def data_generator():
   Category_Weights['CoolingClothing'] = 2.75
   Category_Weights['Automotive'] = 2.5
   Category_Weights['Food'] = 2.5
-  Category_Weights['Toys'] = 2.5
+  Category_Weights['Beverages'] = 1.75
+  Category_Weights['Toys'] = 1.5
 
 
   Special_Dates = {
@@ -163,90 +168,74 @@ def data_generator():
     return result
 
   def getProduct(date, country, category):
-    pass
-  
-  def getOrderId():
-    pass
-  def getCustomerId():
-    pass
-  def getCustomerName():
-    pass
-  def getProductId(product):
-    pass
-  def getPaymentType(country):
-    pass
-  def getQty():
-    pass
-  def getPrice(product):
-    pass
-  def getWebsite():
-    pass
-  def getTxnId():
-    pass
-  def getSuccess():
-    pass
-  def getFailureReason():
-    pass
-  
-  def test_getDate(testNum=10000):
-    results = [getDate() for _ in range(testNum)]
-    counter = Counter(results)
+    weights = {name:1 for name in products[products['category']==category]['name'].unique()}
 
-    special_count = sum(counter[date] for dates in Special_Dates.values() for date in dates)
-    non_special_count = testNum - special_count
-
-    special_breakdown = {key: sum(counter[date] for date in Special_Dates[key]) for key in Special_Dates.keys()}
+    # some detail weight modification
+    if category == 'Food':
+      # for food
+      continent_series = Cities[Cities["Country"] == country]["Continent"]
+      if not continent_series.empty and continent_series.iloc[0] == "Asia":
+        # if asian country, buy rice more
+        weights['Rice'] += 4
+        if date in Special_Dates["SpringFestival"]:
+          # if asian country and spring festival
+          weights['Spring Festival Dumplings'] += 4
+          weights['Spring Festival Rice Cakes'] += 4
+      if date in Special_Dates["Christmas"]:
+        # if not asian country but in christmas
+        weights['Christmas Gingerbread Cookies'] += 4
+        weights['Christmas Roasted Turkey'] += 8
+    if category == "Toys":
+      if date in Special_Dates["SpringFestival"] or date in Special_Dates["Christmas"]:
+        weights['Gift Toy'] += 1
     
-    result = {
-      "special_count": special_count,
-      "non_special_count": non_special_count,
-      "special_breakdown": special_breakdown,
-      "total": testNum}
-    print(result)
+    result = random.choices(list(weights.keys()), weights=list(weights.values()), k=1)[0]
+    return result
+
+  def getOrderId():
+    order_id_counter += 1
+    return order_id_counter
   
-  def test_getCountry_City_Category(testNum=1000):
-    # 存储测试结果
-    country_results = []
-    city_results = []
-    category_results = []
-
-    for _ in range(testNum):
-        # 生成随机日期
-        random_days = random.randint(0, (datetime(2024, 12, 31) - datetime(2024, 1, 1)).days)
-        test_date = (datetime(2024, 1, 1) + timedelta(days=random_days)).strftime('%Y-%m-%d')
-
-        # 获取国家和城市
-        test_country = getCountry(test_date)
-        test_city = getCity(test_country)
-
-        # 获取分类
-        test_category = getCategory(test_date, test_country)
-
-        # 保存结果
-        country_results.append(test_country)
-        city_results.append(test_city)
-        category_results.append(test_category)
-
-    # 统计结果分布
-    country_counter = Counter(country_results)
-    city_counter = Counter(city_results)
-    category_counter = Counter(category_results)
-
-    # 打印统计结果
-    print("Country Distribution:")
-    for country, count in country_counter.items():
-        print(f"{country}: {count} ({count / testNum * 100:.2f}%)")
-
-    print("\nCity Distribution:")
-    for city, count in city_counter.items():
-        print(f"{city}: {count} ({count / testNum * 100:.2f}%)")
-
-    print("\nCategory Distribution:")
-    for category, count in category_counter.items():
-        print(f"{category}: {count} ({count / testNum * 100:.2f}%)")
-
-  test_getDate()
-  test_getCountry_City_Category()
+  def getCustomerId(country):
+    return random.choice(customers[customers['country'] == country]['id'].tolist())
   
+  def getCustomerName(id):
+    return customers[customers['id'] == id]['name'].iloc[0]
+  
+  def getProductId(product):
+    return products[products['name'] == product]['id'].iloc[0]
+  
+  def getPaymentType(country):
+    if country == "China":
+      return random.choice(['Weixin', 'Taobao', 'Paypal'])
+    return random.choice(['Visa', 'Apple Pay', 'Paypal'])
+  
+  def getQty():
+    return random.choice([1,1,1,1,1,1,1,2,2,2,2,3,3,4])
+  
+  def getPrice(product):
+    return products[products['name'] == product]['price'].iloc[0]
+  
+  def getWebsite(country):
+    websites = ['www.amazon.com', 'www.ftatacliq.com', 'www.ebay.com']
+    if country == 'China':
+      websites.append('www.taobao.com')
+      websites.append('www.tianmao.com')
+    return random.choice(websites)
+  
+  def getTxnId():
+    return 10000 - order_id_counter
+  
+  def getSuccess():
+    seed = random.random()
+    if seed > 0.99:
+      return 'N'
+    return 'Y'
+  
+  def getFailureReason(success):
+    if success == 'Y':
+      return ""
+    reasons = ['Invalid CVV', 'You failed because I want you fail, go report me!', 'Insufficient deposit', 'Crime found, already called FBI']
+    return random.choice(reasons)  
 
 data_generator()
