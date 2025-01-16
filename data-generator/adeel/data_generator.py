@@ -4,7 +4,7 @@ import datetime
 import uuid
 import names
 import random
-from lists import product_dict, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, quantity_ranges, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -68,11 +68,6 @@ def adjust_product_weights(country, date):
                 if product in category:
                     dynamic_weights[product] += boost
     
-    # Weekend Adjustment
-    if date.weekday() > 5:
-        for product in dynamic_weights.keys():
-            dynamic_weights[product] += 10 # static boost if weekend
-    
     # Country Specific Adjustment
     if country in country_specific_weights:
         for product, boost in country_specific_weights[country].items():
@@ -118,7 +113,8 @@ def get_payment_type():
 # TOOLS 1 - 2
 # SPORTING GOODS 1 - 4
 def generate_quantity(category):
-    pass
+    quantity_range = quantity_ranges.get(category)
+    return random.choice(quantity_range)
 
 # DATETIME (More people ordering during peak times, days (weights))
 # 2024 (full year)
@@ -131,7 +127,7 @@ def generate_quantity(category):
 # 3 PM - 7 PM 15%
 # 7 PM - 10 PM 25%
 # 10 PM - 12 AM 5%
-def getDateTime(city):
+def getDateTime(city, country):
     pass
 
 # COUNTRY (USA (60%), Germany (10%), UK (10%), Japan (10%), India (10%))

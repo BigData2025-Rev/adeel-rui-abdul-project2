@@ -149,6 +149,16 @@ product_categories = {
     "Sporting Goods": list(range(1126, 1146)) 
 }
 
+quantity_ranges = {
+    "Electronics": list(range(1, 4)),      
+    "Clothing": list(range(1, 9)),       
+    "Home Appliances": list(range(1, 3)), 
+    "Toys": list(range(1, 4)),        
+    "Books": list(range(1, 4)),         
+    "Tools": list(range(1, 3)),          
+    "Sporting Goods": list(range(1, 5))   
+}
+
 # Holiday weights
 holiday_weights = {
     "11-29": {"Electronics": 30, "Toys": 20},
@@ -188,3 +198,12 @@ country_specific_weights = {
         "Electric Fan": 15, "Wristwatch": 10
     }
 }
+
+peak_dates_by_country = {
+    "USA": ["11-29", "12-02", "12-25", "01-01", "07-04", "11-28", "02-14"],
+    "Germany": ["12-24", "12-25", "11-29", "12-02", "03-29", "03-31", "10-03", "05-12"],
+    "UK": ["12-26", "12-25", "11-29", "12-02", "03-29", "03-31", "05-06", "05-27", "02-14"],
+    "Japan": ["01-01", "04-29", "05-03", "05-04", "05-05", "08-13", "08-15", "12-25", "03-14", "11-11"],
+    "India": ["10-31", "01-01", "03-25", "04-10", "10-09", "08-19", "08-15", "09-07", "12-25"]
+}
+
