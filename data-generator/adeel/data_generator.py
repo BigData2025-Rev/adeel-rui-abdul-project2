@@ -6,7 +6,7 @@ import names
 import random
 from lists import product_dict, time_slots, city_timezone_offset, quantity_ranges, peak_dates_by_country, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
-NUM_ORDERS = 15000
+NUM_ORDERS = 100
 
 spark = SparkSession.builder.appName("data-generator")\
 .config("spark.master", "local[*]")\
@@ -17,7 +17,7 @@ spark = SparkSession.builder.appName("data-generator")\
 # ORDER ID (Random for each order)
 # PAYMENT TRANSACTION ID (Random for each order)
 def generate_unique_id():
-    return str(uuid.uuid())[:8].upper()
+    return str(uuid.uuid4())[:8].upper()
 
 # CUSTOMER ID (Hash first, last, country same for same combinations (same customer)) 
 def generate_customer_id(full_name, country):
@@ -132,7 +132,7 @@ def getDateTime(city, country):
     end_date = datetime(2024, 12, 31)
     all_dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
     
-    peak_dates = peak_dates_by_country(country, [])
+    peak_dates = peak_dates_by_country.get(country, [])
 
     date_weights = []
     for date in all_dates:
@@ -145,7 +145,7 @@ def getDateTime(city, country):
 
     weights = [slot[2] for slot in time_slots]
     
-    actual_date = random.choice(all_dates, weights=date_weights)[0]
+    actual_date = random.choices(all_dates, weights=date_weights)[0]
     selected_slot = random.choices(time_slots, weights=weights, k=1)[0]
 
     hour = random.randint(selected_slot[0], selected_slot[1] - 1)
@@ -191,8 +191,8 @@ def generate_payment_status():
     return "Y" if success else "N", reason
 
 schema = StructType([
-    StructField("order_id", StringType(), False),
-    StructField("customer_id", StringType(), False),
+    StructField("order_id", StringType(), True),
+    StructField("customer_id", StringType(), True),
     StructField("customer_name", StringType(), True),
     StructField("product_id", IntegerType(), True),
     StructField("product_name", StringType(), True),
@@ -204,7 +204,7 @@ schema = StructType([
     StructField("country", StringType(), True),
     StructField("city", StringType(), True),
     StructField("ecommerce_website_name", StringType(), True),
-    StructField("payment_txn_id", StringType(), False),
+    StructField("payment_txn_id", StringType(), True),
     StructField("payment_txn_success", StringType(), True),
     StructField("failure_reason", StringType(), True)
 ])
@@ -215,14 +215,14 @@ def generate_order():
     country, city = get_country_city()
     customer_name = generate_name()
     customer_id = generate_customer_id(customer_name, country)
-    product_name = get_random_product(country, datetime.datetime.now())
+    datetime_ordered = getDateTime(city, country)
+    product_name = get_random_product(country, datetime_ordered)
     product_id = get_product_id(product_name)
     product_category = get_product_category(product_id)
     retailer = get_retailer()
     quantity = generate_quantity(product_category)
     price = get_product_price(product_name, retailer)
     payment_type = get_payment_type()
-    datetime_ordered = getDateTime(city, country)
     payment_success, failure_reason = generate_payment_status()
 
     return {
@@ -245,7 +245,46 @@ def generate_order():
     }
 
 orders_generated = 0
-
+data = []
 
 while orders_generated < NUM_ORDERS:
-    pass
+    order = generate_order()
+
+    # insert rouge data 3%
+    if (random.randint(1, 100) <= 3):
+        option = random.randint(1, 4)
+        
+        # random missing field
+        if option == 1:
+            random_field = random.choice(list(order.keys()))
+            order[random_field] = None
+        # duplicate entry
+        elif option == 2:
+            data.append(order)
+        # Invalid Data
+        elif option == 3:
+            random_field = random.choice(list(order.keys()))
+            if random_field == "order_id" or random_field == "payment_txn_id":
+                order[random_field] = str(random.randint(1, 1000))
+            elif random_field == "price":
+                order[random_field] = -1 * random.uniform(5.0, 5000.0)
+            elif random_field == "datetime":
+                order[random_field] = datetime.now()
+            elif random_field == "qty" or random_field == "product_id":
+                order[random_field] = random.randint(5, 100)
+            else:
+                order[random_field] = generate_unique_id()
+        # price outlier
+        elif option == 4:
+            order["price"] = order["price"] * random.randint(5, 10)
+        print("rouge " + str(option))
+        
+    data.append(order)
+    orders_generated += 1
+    print(orders_generated)
+
+
+df = spark.createDataFrame(data, schema)
+df.show()
+
+df.write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/data", header=True, mode="overwrite")
