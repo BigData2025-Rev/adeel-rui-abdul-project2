@@ -4,7 +4,7 @@ import datetime
 import uuid
 import names
 import random
-from lists import product_list, price_list, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -19,7 +19,6 @@ spark = SparkSession.builder.appName("data-generator")\
 def generate_unique_id():
     return str(uuid.uuid())[:8].upper()
 
-
 # CUSTOMER ID (Hash first, last, country same for same combinations (same customer)) 
 def generate_customer_id(full_name, country):
     id = f"{full_name}{country}"
@@ -31,10 +30,27 @@ def generate_name():
     return names.get_full_name()
 
 # PRODUCT ID (product_names[index] + 1001)
+def get_product_id(product_name):
+    product_list = list(product_dict.keys())
+    return product_list.index(product_name) + 1001 if product_name in product_list else None
+
 # PRODUCT NAME (Random from list, weights for different products based on popularity)
 def get_random_product():
     pass
 
+def get_product_category(product_id):
+    for category, ids in product_categories.items():
+        if product_id in ids:
+            return category
+
+# PRICE (Use price list + variation based on retailer)
+def get_product_price(product, retailer):
+    price = price_dict[product]
+    if retailer == "Amazon":
+        return price * 0.97
+    elif retailer == "Target":
+        return price * 1.03
+    return price
 
 # PRODUCT CATEGORY (Based on location in list, same for every retailer)
 # PAYMENT TYPE (Random from card (50%), bank transfer (20%), apple pay (15%), paypal (15%))
@@ -45,13 +61,9 @@ def get_payment_type():
 def generate_quantity(category):
     pass
 
-# PRICE (Use price list + variation based on retailer)
-
-
 # DATETIME (More people ordering during peak times, days (weights))
 def getDateTime(city):
     pass
-
 
 # COUNTRY (USA (60%), Germany (10%), UK (10%), Japan (10%), India (10%))
 # CITY (Random City based on country (no weights here, top 5 cities (by pop.) in each country))
@@ -89,6 +101,7 @@ schema = StructType([
     StructField("City", StringType(), True),
     StructField("ProductID", IntegerType(), True),
     StructField("ProductName", StringType(), True),
+    StructField("ProductCategory", StringType(), True),
     StructField("PaymentType", StringType(), True),
     StructField("Quantity", IntegerType(), True),
     StructField("Price", DoubleType(), True),
