@@ -269,7 +269,7 @@ while orders_generated < NUM_ORDERS:
             if random_field == "order_id" or random_field == "payment_txn_id":
                 order[random_field] = str(random.randint(1, 1000))
             elif random_field == "price":
-                order[random_field] = round(-1 * random.uniform(5.0, 5000.0), 2)
+                order[random_field] = 0.00
             elif random_field == "datetime":
                 order[random_field] = datetime.now()
             elif random_field == "qty" or random_field == "product_id":
@@ -278,7 +278,7 @@ while orders_generated < NUM_ORDERS:
                 order[random_field] = generate_unique_id()
         # price outlier
         elif option == 4:
-            order["price"] = order["price"] * random.randint(5, 10)
+            order["price"] = round(order["price"] * random.randint(5, 10), 2)
         
     data.append(order)
     orders_generated += 1
