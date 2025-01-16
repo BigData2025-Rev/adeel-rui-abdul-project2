@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType, BooleanType, TimestampType
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType, TimestampType
+from pyspark.sql.functions import date_format
 from datetime import timedelta, datetime
 import uuid
 import names
@@ -151,10 +152,11 @@ def getDateTime(city, country):
 
     hour = random.randint(selected_slot[0], selected_slot[1] - 1)
     minute = random.randint(0, 59)
-    second = random.randint(0, 59)
 
     # adjust for local time based on city_timezone_offset
-    combined_datetime = actual_date.replace(hour=hour, minute=minute, second=second)
+    combined_datetime = datetime.combine(actual_date, datetime.min.time()).replace(
+        hour=hour, minute=minute, second=0
+    )
 
     offset = city_timezone_offset.get(city, 0)
 
@@ -281,11 +283,13 @@ while orders_generated < NUM_ORDERS:
             order["price"] = round(order["price"] * random.randint(5, 10), 2)
         
     data.append(order)
+    print(orders_generated)
     orders_generated += 1
 
 spark.sparkContext.setLogLevel("INFO")
 df = spark.createDataFrame(data, schema)
+df = df.withColumn("datetime", date_format("datetime", "yyyy-MM-dd HH:mm"))
 df.show()
 
-df.coalesce(1).write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/final_data", header=True, mode="overwrite")
+df.coalesce(1).write.csv("/home/adeelrev/final_data", header=True, mode="overwrite")
 print("end")
