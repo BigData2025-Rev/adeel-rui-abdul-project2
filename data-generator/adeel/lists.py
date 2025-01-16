@@ -148,3 +148,20 @@ product_categories = {
     "Tools": list(range(1106, 1126)),       
     "Sporting Goods": list(range(1126, 1146)) 
 }
+
+# Holiday weights
+holiday_weights = {
+    "11-29": {"Electronics": 30, "Toys": 20},
+    "12-25": {"Toys": 40, "Home Appliances": 20, "Books": 15}, 
+    "01-01": {"Books": 20, "Fitness & Nutrition Guide": 25}, 
+    "10-31": {"Toys": 30}, 
+    "07-04": {"Sporting Goods": 25},  
+    "10-24": {"Clothing": 25} 
+}
+
+season_weights = {
+    "Winter": {"Clothing": 30, "Home Appliances": 20, "Books": 15},
+    "Spring": {"Sporting Goods": 25, "Toys": 20},
+    "Summer": {"Sporting Goods": 30, "Clothing": 20},
+    "Fall": {"Books": 25, "Home Appliances": 15}
+}

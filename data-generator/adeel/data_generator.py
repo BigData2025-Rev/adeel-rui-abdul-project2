@@ -4,7 +4,7 @@ import datetime
 import uuid
 import names
 import random
-from lists import product_dict, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -33,6 +33,33 @@ def generate_name():
 def get_product_id(product_name):
     product_list = list(product_dict.keys())
     return product_list.index(product_name) + 1001 if product_name in product_list else None
+
+def get_season(month):
+    """Determine the season based on the month."""
+    if month in [12, 1, 2]:
+        return "Winter"
+    elif month in [3, 4, 5]:
+        return "Spring"
+    elif month in [6, 7, 8]:
+        return "Summer"
+    elif month in [9, 10, 11]:
+        return "Fall"
+
+# Make certain catagories more popular in certain countries
+# Seasonal products more popular in various seasons
+# Weekend boost
+# Time of day boost
+def adjust_product_weights(country, date):
+    dynamic_weights = product_dict.copy()
+
+    season = get_season(date.month)
+    if season in season_weights:
+        for category, boost in season_weights[season].items():
+            for product in dynamic_weights.keys():
+                if product in category:
+                    dynamic_weights[product] += boost
+
+
 
 # PRODUCT NAME (Random from list, weights for different products based on popularity)
 def get_random_product():
@@ -133,3 +160,5 @@ schema = StructType([
 ])
 
 # Process
+
+print(product_categories)
