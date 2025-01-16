@@ -36,7 +36,10 @@ def get_product_id(product_name):
 
 # PRODUCT NAME (Random from list, weights for different products based on popularity)
 def get_random_product():
-    pass
+    products = list(product_dict.keys())
+    weights = list(product_dict.values())
+    
+    return random.choices(products, weights=weights)[0]
 
 def get_product_category(product_id):
     for category, ids in product_categories.items():
@@ -58,10 +61,27 @@ def get_payment_type():
     return random.choices(payment_type, weights=[50, 20, 15, 15])[0]
 
 # QTY (Realistic based on category)
+# ELECTRONICS 1 - 3
+# CLOTHING 1 - 8
+# HOME APPLIANCES 1 - 2
+# TOYS 1 - 3
+# BOOKS 1 - 3
+# TOOLS 1 - 2
+# SPORTING GOODS 1 - 4
 def generate_quantity(category):
     pass
 
 # DATETIME (More people ordering during peak times, days (weights))
+# 2024 (full year)
+# more people order on: Black Friday, Cyber Monday, Christmas, Weekends
+# Time based on time zone of city, weights based on time:
+# 12 AM - 6 AM 10%
+# 6 AM - 9 AM 5%
+# 9 AM - 12 PM 15%
+# 12 PM - 3 PM 25%
+# 3 PM - 7 PM 15%
+# 7 PM - 10 PM 25%
+# 10 PM - 12 AM 5%
 def getDateTime(city):
     pass
 
