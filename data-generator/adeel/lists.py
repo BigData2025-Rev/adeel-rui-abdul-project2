@@ -165,3 +165,26 @@ season_weights = {
     "Summer": {"Sporting Goods": 30, "Clothing": 20},
     "Fall": {"Books": 25, "Home Appliances": 15}
 }
+
+country_specific_weights = {
+    "USA": {
+        "Smartphone": 20, "Laptop": 15, "Gaming Console": 10, "Camping Tent": 15,
+        "Coffee Maker": 10, "Running Shoes": 10
+    },
+    "Germany": {
+        "Robot Vacuum Cleaner": 25, "Cordless Drill": 20, "Refrigerator": 15,
+        "Books": 10, "Camping Tent": 10
+    },
+    "UK": {
+        "Fantasy Novel": 20, "Mystery Novel": 15, "Lego Set": 10,
+        "Winter Coat": 10, "Coffee Maker": 5
+    },
+    "Japan": {
+        "Smartphone": 30, "Gaming Console": 25, "Robot Vacuum Cleaner": 15,
+        "Noise-Cancelling Headphones": 10, "E-Reader": 10
+    },
+    "India": {
+        "Smartphone": 30, "Cotton T-Shirt": 20, "Running Shoes": 15,
+        "Electric Fan": 15, "Wristwatch": 10
+    }
+}

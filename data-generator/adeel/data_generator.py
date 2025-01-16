@@ -4,7 +4,7 @@ import datetime
 import uuid
 import names
 import random
-from lists import product_dict, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -52,6 +52,7 @@ def get_season(month):
 def adjust_product_weights(country, date):
     dynamic_weights = product_dict.copy()
 
+    # Season Adjustment
     season = get_season(date.month)
     if season in season_weights:
         for category, boost in season_weights[season].items():
@@ -59,12 +60,33 @@ def adjust_product_weights(country, date):
                 if product in category:
                     dynamic_weights[product] += boost
 
+    # Holiday Adjustment
+    month_day = date.strftime("%m-%d")
+    if month_day in holiday_weights:
+        for category, boost in holiday_weights[month_day].items():
+            for product in dynamic_weights.keys():
+                if product in category:
+                    dynamic_weights[product] += boost
+    
+    # Weekend Adjustment
+    if date.weekday() > 5:
+        for product in dynamic_weights.keys():
+            dynamic_weights[product] += 10 # static boost if weekend
+    
+    # Country Specific Adjustment
+    if country in country_specific_weights:
+        for product, boost in country_specific_weights[country].items():
+            if product in dynamic_weights:
+                dynamic_weights[product] += boost
+
+    return dynamic_weights
+
 
 
 # PRODUCT NAME (Random from list, weights for different products based on popularity)
-def get_random_product():
+def get_random_product(country, date):
     products = list(product_dict.keys())
-    weights = list(product_dict.values())
+    weights = list(adjust_product_weights(country, date).values())
     
     return random.choices(products, weights=weights)[0]
 
