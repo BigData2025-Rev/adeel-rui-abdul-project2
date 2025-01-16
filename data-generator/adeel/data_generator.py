@@ -173,25 +173,25 @@ def get_retailer():
 def generate_payment_status():
     success = random.choices([True, False], weights=[90, 10])[0]
     reason = random.choices(payment_failure_reason, weights=[40, 20, 20, 20])[0] if not success else None
-    return success, reason
+    return "Y" if success else "N", reason
 
 schema = StructType([
-    StructField("OrderID", StringType(), False),
-    StructField("CustomerID", StringType(), False),
-    StructField("CustomerName", StringType(), True),
-    StructField("Country", StringType(), True),
-    StructField("City", StringType(), True),
-    StructField("ProductID", IntegerType(), True),
-    StructField("ProductName", StringType(), True),
-    StructField("ProductCategory", StringType(), True),
-    StructField("PaymentType", StringType(), True),
-    StructField("Quantity", IntegerType(), True),
-    StructField("Price", DoubleType(), True),
-    StructField("TotalCost", DoubleType(), True),
-    StructField("DateTimeOrdered", TimestampType(), True),
-    StructField("Retailer", StringType(), True),
-    StructField("PaymentSuccess", BooleanType(), True),
-    StructField("FailureReason", StringType(), True)
+    StructField("order_id", StringType(), False),
+    StructField("customer_id", StringType(), False),
+    StructField("customer_name", StringType(), True),
+    StructField("product_id", IntegerType(), True),
+    StructField("product_name", StringType(), True),
+    StructField("product_category", StringType(), True),
+    StructField("payment_type", StringType(), True),
+    StructField("qty", IntegerType(), True),
+    StructField("price", DoubleType(), True),
+    StructField("datetime", TimestampType(), True),
+    StructField("country", StringType(), True),
+    StructField("city", StringType(), True),
+    StructField("ecommerce_website_name", StringType(), True),
+    StructField("payment_txn_id", StringType(), False),
+    StructField("payment_txn_success", StringType(), True),
+    StructField("failure_reason", StringType(), True)
 ])
 
 # Process
@@ -206,26 +206,25 @@ def generate_order():
     retailer = get_retailer()
     quantity = generate_quantity(product_category)
     price = get_product_price(product_name, retailer)
-    total_cost = quantity * price
     payment_type = get_payment_type()
     datetime_ordered = getDateTime(city, country)
     payment_success, failure_reason = generate_payment_status()
 
     return {
-        "OrderID": generate_unique_id(),
-        "CustomerID": customer_id,
-        "CustomerName": customer_name,
-        "Country": country,
-        "City": city,
-        "ProductID": product_id,
-        "ProductName": product_name,
-        "ProductCategory": product_category,
-        "PaymentType": payment_type,
-        "Quantity": quantity,
-        "Price": price,
-        "TotalCost": total_cost,
-        "DateTimeOrdered": datetime_ordered,
-        "Retailer": retailer,
-        "PaymentSuccess": payment_success,
-        "FailureReason": failure_reason
+        "order_id": generate_unique_id(),
+        "customer_id": customer_id,
+        "customer_name": customer_name,
+        "product_id": product_id,
+        "product_name": product_name,
+        "product_category": product_category,
+        "payment_type": payment_type,
+        "qty": quantity,
+        "price": price,
+        "datetime": datetime_ordered,
+        "country": country,
+        "city": city,
+        "ecommerce_website_name": retailer,
+        "payment_txn_id": generate_unique_id(),
+        "payment_txn_success": payment_success,
+        "failure_reason": failure_reason
     }
