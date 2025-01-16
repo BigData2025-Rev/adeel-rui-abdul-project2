@@ -279,15 +279,13 @@ while orders_generated < NUM_ORDERS:
         # price outlier
         elif option == 4:
             order["price"] = order["price"] * random.randint(5, 10)
-        print("rouge " + str(option))
         
     data.append(order)
     orders_generated += 1
-    print(orders_generated)
 
 spark.sparkContext.setLogLevel("INFO")
 df = spark.createDataFrame(data, schema)
 df.show()
 
-df.coalesce(1).write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/data", header=True, mode="overwrite")
+df.coalesce(1).write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/final_data", header=True, mode="overwrite")
 print("end")
