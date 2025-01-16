@@ -135,6 +135,44 @@ uk_cities = ["London", "Birmingham", "Manchester", "Glasgow", "Leeds"]
 japan_cities = ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo"]
 india_cities = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad"]
 
+city_timezone_offset = {
+    "New York": -5,  
+    "Los Angeles": -8,  
+    "Chicago": -6,  
+    "Houston": -6,  
+    "Phoenix": -7,  
+    "Berlin": 1,  
+    "Hamburg": 1,  
+    "Munich": 1,  
+    "Cologne": 1,  
+    "Frankfurt": 1, 
+    "London": 0, 
+    "Birmingham": 0, 
+    "Manchester": 0,  
+    "Glasgow": 0, 
+    "Leeds": 0, 
+    "Tokyo": 9, 
+    "Yokohama": 9,  
+    "Osaka": 9,
+    "Nagoya": 9,  
+    "Sapporo": 9,  
+    "Mumbai": 5.5, 
+    "Delhi": 5.5, 
+    "Bangalore": 5.5,  
+    "Hyderabad": 5.5,  
+    "Ahmedabad": 5.5, 
+}
+
+time_slots = [
+    [0, 6, 10], 
+    [6, 9, 5],
+    [9, 12, 15],
+    [12, 15, 25],
+    [15, 19, 15],
+    [19, 22, 25],
+    [22, 24, 5]
+]
+
 payment_failure_reason = [
     "Insufficent Funds", "Incorrect Inforamtion", "Fraud", "Technical Issues"
 ]

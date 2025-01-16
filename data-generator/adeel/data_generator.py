@@ -4,7 +4,7 @@ from datetime import timedelta, datetime
 import uuid
 import names
 import random
-from lists import product_dict, quantity_ranges, peak_dates_by_country, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, time_slots, city_timezone_offset, quantity_ranges, peak_dates_by_country, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -142,8 +142,23 @@ def getDateTime(city, country):
         if date.strftime("%m-%d") in peak_dates:
             weight += 20
         date_weights.append(weight)
+
+    weights = [slot[2] for slot in time_slots]
     
     actual_date = random.choice(all_dates, weights=date_weights)[0]
+    selected_slot = random.choices(time_slots, weights=weights, k=1)[0]
+
+    hour = random.randint(selected_slot[0], selected_slot[1] - 1)
+    minute = random.randint(0, 59)
+
+    # adjust for local time based on city_timezone_offset
+    combined_datetime = actual_date.replace(hour=hour, minute=minute)
+
+    offset = city_timezone_offset.get(city, 0)
+
+    combined_datetime += timedelta(hours=offset)
+
+    return combined_datetime
         
 
 
@@ -228,3 +243,9 @@ def generate_order():
         "payment_txn_success": payment_success,
         "failure_reason": failure_reason
     }
+
+orders_generated = 0
+
+
+while orders_generated < NUM_ORDERS:
+    pass
