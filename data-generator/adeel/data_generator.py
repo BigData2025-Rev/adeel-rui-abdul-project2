@@ -1,10 +1,10 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructField, StructType, StringType, IntegerType, DoubleType, BooleanType, TimestampType
-import datetime
+from datetime import timedelta, datetime
 import uuid
 import names
 import random
-from lists import product_dict, quantity_ranges, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
+from lists import product_dict, quantity_ranges, peak_dates_by_country, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
 NUM_ORDERS = 15000
 
@@ -128,7 +128,24 @@ def generate_quantity(category):
 # 7 PM - 10 PM 25%
 # 10 PM - 12 AM 5%
 def getDateTime(city, country):
-    pass
+    start_date = datetime(2024, 1, 1)
+    end_date = datetime(2024, 12, 31)
+    all_dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
+    
+    peak_dates = peak_dates_by_country(country, [])
+
+    date_weights = []
+    for date in all_dates:
+        weight = 10 
+        if date.weekday() >= 5:
+            weight += 10
+        if date.strftime("%m-%d") in peak_dates:
+            weight += 20
+        date_weights.append(weight)
+    
+    actual_date = random.choice(all_dates, weights=date_weights)[0]
+        
+
 
 # COUNTRY (USA (60%), Germany (10%), UK (10%), Japan (10%), India (10%))
 # CITY (Random City based on country (no weights here, top 5 cities (by pop.) in each country))
@@ -179,4 +196,36 @@ schema = StructType([
 
 # Process
 
-print(product_categories)
+def generate_order():
+    country, city = get_country_city()
+    customer_name = generate_name()
+    customer_id = generate_customer_id(customer_name, country)
+    product_name = get_random_product(country, datetime.datetime.now())
+    product_id = get_product_id(product_name)
+    product_category = get_product_category(product_id)
+    retailer = get_retailer()
+    quantity = generate_quantity(product_category)
+    price = get_product_price(product_name, retailer)
+    total_cost = quantity * price
+    payment_type = get_payment_type()
+    datetime_ordered = getDateTime(city, country)
+    payment_success, failure_reason = generate_payment_status()
+
+    return {
+        "OrderID": generate_unique_id(),
+        "CustomerID": customer_id,
+        "CustomerName": customer_name,
+        "Country": country,
+        "City": city,
+        "ProductID": product_id,
+        "ProductName": product_name,
+        "ProductCategory": product_category,
+        "PaymentType": payment_type,
+        "Quantity": quantity,
+        "Price": price,
+        "TotalCost": total_cost,
+        "DateTimeOrdered": datetime_ordered,
+        "Retailer": retailer,
+        "PaymentSuccess": payment_success,
+        "FailureReason": failure_reason
+    }
