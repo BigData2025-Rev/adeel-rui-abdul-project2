@@ -6,7 +6,7 @@ import names
 import random
 from lists import product_dict, time_slots, city_timezone_offset, quantity_ranges, peak_dates_by_country, country_specific_weights, season_weights, holiday_weights, price_dict, product_categories, retailers, payment_type, countries, usa_cities, germany_cities, uk_cities, japan_cities, india_cities, payment_failure_reason
 
-NUM_ORDERS = 100
+NUM_ORDERS = 14000
 
 spark = SparkSession.builder.appName("data-generator")\
 .config("spark.master", "local[*]")\
@@ -94,9 +94,10 @@ def get_product_category(product_id):
 def get_product_price(product, retailer):
     price = price_dict[product]
     if retailer == "Amazon":
-        return price * 0.97
+        return round(price * 0.97, 2)
     elif retailer == "Target":
-        return price * 1.03
+        return round(price * 1.03, 2)
+
     return price
 
 # PRODUCT CATEGORY (Based on location in list, same for every retailer)
@@ -150,9 +151,10 @@ def getDateTime(city, country):
 
     hour = random.randint(selected_slot[0], selected_slot[1] - 1)
     minute = random.randint(0, 59)
+    second = random.randint(0, 59)
 
     # adjust for local time based on city_timezone_offset
-    combined_datetime = actual_date.replace(hour=hour, minute=minute)
+    combined_datetime = actual_date.replace(hour=hour, minute=minute, second=second)
 
     offset = city_timezone_offset.get(city, 0)
 
@@ -267,11 +269,11 @@ while orders_generated < NUM_ORDERS:
             if random_field == "order_id" or random_field == "payment_txn_id":
                 order[random_field] = str(random.randint(1, 1000))
             elif random_field == "price":
-                order[random_field] = -1 * random.uniform(5.0, 5000.0)
+                order[random_field] = round(-1 * random.uniform(5.0, 5000.0), 2)
             elif random_field == "datetime":
                 order[random_field] = datetime.now()
             elif random_field == "qty" or random_field == "product_id":
-                order[random_field] = random.randint(5, 100)
+                order[random_field] = random.randint(50, 300)
             else:
                 order[random_field] = generate_unique_id()
         # price outlier
@@ -283,8 +285,9 @@ while orders_generated < NUM_ORDERS:
     orders_generated += 1
     print(orders_generated)
 
-
+spark.sparkContext.setLogLevel("INFO")
 df = spark.createDataFrame(data, schema)
 df.show()
 
-df.write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/data", header=True, mode="overwrite")
+df.coalesce(1).write.csv("/home/adeelrev/adeel-rui-abdul-project2/data-generator/adeel/data", header=True, mode="overwrite")
+print("end")
