@@ -60,7 +60,6 @@ def filter_null(df):
 df = df_origional.select("*")
 print("The counts: " + str(df.count()))
 df.printSchema()
-
 """
 check columns name
 """
@@ -128,7 +127,8 @@ check datetime
 """
 print("\nCheck datetime format: YYYY-MM-DD HH:MM:SS")
 print("The counts: " + str(df.count()))
-df = df.filter(col("datetime").rlike(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$"))
+df = df.filter(col("datetime").rlike(r"^(2023|2024)-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1])) \d{2}:\d{2}:\d{2}$"))
+# df = df.filter((col("datetime").startswith("2023")) | (col("datetime").startswith("2024")) )
 print("The counts after check datetime: " + str(df.count()))
 
 
@@ -141,7 +141,7 @@ df = df.filter(trim(col("country")) != "")
 print("The counts after check country: " + str(df.count()))
 df = df.filter(trim(col("city")) != "")
 print("The counts after check city: " + str(df.count()))
-df = df.filter(col("ecommerce_website_name").rlike("^https://"))
+df = df.filter(col("ecommerce_website_name").rlike(r"^https://"))
 print("The counts after check ecommerce website name: " + str(df.count()))
 
 
@@ -156,7 +156,7 @@ df = df.withColumn("payment_txn_id", col("payment_txn_id").cast("string"))
 df = df.dropDuplicates(["payment_txn_id"])
 df = df.filter(col("payment_txn_id").rlike(r"^\d{10}$"))
 print("The counts after check payment txn id: " + str(df.count()))
-df = df.filter(col("payment_txn_success").rlike("^(Y|N)$"))
+df = df.filter(col("payment_txn_success").rlike(r"^(Y|N)$"))
 print("The counts after check payment txn success: " + str(df.count()))
 df = df.withColumn("failure_reason", when(col("failure_reason")==" ", "").otherwise(col("failure_reason")))
 df = df.filter(
@@ -172,5 +172,9 @@ print("\nFinal check")
 print("The counts: " + str(df.count()))
 df.printSchema()
 
+cleaned_dataset = df
+cleaned_dataset.coalesce(1) .write.csv(warehouse_location + "cleaned_dataset/", header=True, mode="overwrite")
+
+# rename to /user/revature/project2/cleaned_dataset.csv
 
 spark.stop()
