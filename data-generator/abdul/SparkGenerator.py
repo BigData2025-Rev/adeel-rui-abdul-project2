@@ -278,7 +278,11 @@ df = df.withColumn(
     .when((df["random_value"] >= 0.15) & (df["random_value"] < 0.3) & (df["product_category"] == "Home Appliances"), "India")
     .when((df["random_value"] >= 0.3) & (df["random_value"] < 0.45) & (df["product_category"] == "books"), "UK")
     .when((df["random_value"] >= 0.45) & (df["random_value"] < 0.6) & (df["product_category"] == "electronics"), "Germany")
-    .otherwise(pick_country_udf(rand() * 3)  )
+    .when((df["random_value"] >= 0.6) & (df["random_value"] < 0.80), "USA")
+    .when((df["random_value"] >= 0.8) & (df["random_value"] < 0.90), "UK")
+    .when((df["random_value"] >= 0.90) & (df["random_value"] < 0.95), "Germany")
+
+    .otherwise(pick_country_udf(rand() * 4)  )
 )
 
 df = df.withColumn("random_payment_val", rand())
@@ -352,6 +356,22 @@ df = df.withColumn("failure_reason", when( df["payment_txn_success"] == "Y", "N/
 df = df.withColumn(
     "datetime",
     when(
+        ((df["product_name"] == "Laptop") |
+         (df["product_name"] == "Smartphone") |
+          (df["product_name"] == "Tablet") |
+           (df["product_name"] == "Wireless Earbuds")  ) &
+        (rand() <= 0.8) ,
+        random_datetime_udf(lit([11,12]), df["country"])  
+    ).
+     when(
+        ((df["product_name"] == "T-Shirt") |
+         (df["product_name"] == "Shorts") |
+          (df["product_name"] == "Air Conditioner") |
+           (df["product_name"] == "Ceiling Fan") ) &
+        (rand() <= 0.8) ,
+        random_datetime_udf(lit([6,7,8]), df["country"])  
+    ).
+    when(
         ((df["product_name"] == "Socks") |
          (df["product_name"] == "Hat") |
          (df["product_name"] == "Jacket") |
@@ -376,9 +396,7 @@ df = df.withColumn(
         (rand() <= 0.8) & (df["country"] == "India"),
         random_datetime_udf(lit([6,7,8]), df["country"])  # June
     ).when(
-        ((df["product_name"] == "Laptop") |
-         (df["product_name"] == "Smartphone") |
-         (df["product_name"] == "Tablet") |
+        (
          (df["product_name"] == "Desktop PC") |
          (df["product_name"] == "Smartwatch") |
          (df["product_name"] == "Gaming Console") |
