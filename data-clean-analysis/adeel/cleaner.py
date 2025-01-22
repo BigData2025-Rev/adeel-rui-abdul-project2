@@ -18,6 +18,8 @@ def clean_data(input_path, output_path):
 
     df = df.filter((col("dateTime").isNotNull()) & (year(col("dateTime")).isin(2023, 2024)))
 
+    df = df.filter(df["product_name"] != "UPDATE orders SET product_category=trash;")
+
     df = df.filter((col("price") > 0) & (col("qty") > 0))
 
     df = df.dropDuplicates(["order_id"])
