@@ -28,7 +28,7 @@ def clean_data(input_path, output_path):
     print(f"Cleaned row count: {cleaned_count}")
     print(f"Rows removed: {initial_count - cleaned_count}")
 
-    df.write.mode("overwrite").option("header", True).csv(output_path)
+    df.coalesce(1).write.mode("overwrite").option("header", True).csv(output_path)
     spark.stop()
 
 if __name__ == "__main__":
