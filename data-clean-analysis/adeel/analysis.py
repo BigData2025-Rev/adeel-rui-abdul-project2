@@ -29,7 +29,31 @@ def top_selling_product_category(input_path, output_path):
 
     top_categories.coalesce(1).write.csv(output_path, header=True, mode="overwrite")
 
-input_path = "hdfs://localhost:9000/data.csv"
-output_path = "hdfs://localhost:9000/top_selling.csv"
+def top_selling_products(input_path, output_path):
+    
+    df = spark.read.csv(input_path, header=True, inferSchema=True)
 
-top_selling_product_category(input_path, output_path)
+    sales_by_product = (
+        df.groupBy("country", "product_name")
+        .agg(sum("qty").alias("total_quantity"))
+    )
+
+    win = Window.partitionBy("country").orderBy(col("total_quantity").desc())
+
+    ranked = sales_by_product.withColumn("rank", row_number().over(win))
+
+    top_products = ranked.filter(col("rank") == 1).select(
+        col("rank"),
+        col("country"),
+        col("product_name").alias("product"),
+        col("total_quantity").alias("qty")
+    )
+
+    top_products.coalesce(1).write.csv(output_path, header=True, mode="overwrite")
+
+input_path = "hdfs://localhost:9000/data.csv"
+output_path1 = "hdfs://localhost:9000/category"
+output_path2 = "hdfs://localhost:9000/product"
+
+top_selling_product_category(input_path, output_path1)
+top_selling_products(input_path, output_path2)
