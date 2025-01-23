@@ -176,6 +176,9 @@ df.printSchema()
 cleaned_dataset = df
 cleaned_dataset.coalesce(1) .write.csv(warehouse_location + "cleaned_dataset/", header=True, mode="overwrite")
 
-# rename to /user/revature/project2/cleaned_dataset.csv
+# hdfs dfs -rm /user/revature/project2/cleaned_dataset.csv
+# hdfs dfs -mv /user/revature/project2/cleaned_dataset/part-* /user/revature/project2/cleaned_dataset.csv
+# hdfs dfs -get /user/revature/project2/cleaned_dataset/part-* ./cleaned_dataset/cleaned_dataset.csv
+
 
 spark.stop()
