@@ -1,0 +1,61 @@
+root
+ |-- order_id: long (nullable = true)
+ |-- customer_id: long (nullable = true)
+ |-- customer_name: string (nullable = true)
+ |-- product_id: integer (nullable = true)
+ |-- product_name: string (nullable = true)
+ |-- product_category: string (nullable = true)
+ |-- payment_type: string (nullable = true)
+ |-- qty: integer (nullable = true)
+ |-- price: double (nullable = true)
+ |-- datetime: timestamp (nullable = true)
+ |-- country: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- ecommerce_website_name: string (nullable = true)
+ |-- payment_txn_id: long (nullable = true)
+ |-- payment_txn_success: string (nullable = true)
+ |-- failure_reason: string (nullable = true)
+
+root
+ |-- country: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- payment_type: string (nullable = true)
+ |-- product_category: string (nullable = true)
+ |-- country_index: double (nullable = false)
+ |-- city_index: double (nullable = false)
+ |-- payment_type_index: double (nullable = false)
+ |-- country_onehot: vector (nullable = true)
+ |-- city_onehot: vector (nullable = true)
+ |-- payment_type_onehot: vector (nullable = true)
+ |-- features: vector (nullable = true)
+ |-- label: double (nullable = false)
+
++--------------------+-----+----------+
+|            features|label|prediction|
++--------------------+-----+----------+
+|(4256,[0,20,4254]...|  0.0|       0.0|
+|(4256,[0,21,4254]...|  0.0|       0.0|
+|(4256,[0,22,4254]...|  0.0|       0.0|
+|(4256,[0,24,4253]...|  0.0|       2.0|
+|(4256,[0,26,4253]...|  0.0|       0.0|
+|(4256,[0,26,4254]...|  0.0|       0.0|
+|(4256,[0,29,4253]...|  0.0|       1.0|
+|(4256,[0,29,4255]...|  1.0|       1.0|
+|(4256,[0,32,4254]...|  1.0|       0.0|
+|(4256,[0,40,4254]...|  0.0|       0.0|
+|(4256,[0,40,4254]...|  2.0|       0.0|
+|(4256,[0,45,4255]...|  2.0|       0.0|
+|(4256,[0,46,4253]...|  0.0|       0.0|
+|(4256,[0,51,4254]...|  3.0|       0.0|
+|(4256,[0,56,4254]...|  0.0|       0.0|
+|(4256,[0,62,4253]...|  4.0|       1.0|
+|(4256,[0,63,4253]...|  1.0|       1.0|
+|(4256,[0,63,4254]...|  0.0|       1.0|
+|(4256,[0,65,4253]...|  1.0|       0.0|
+|(4256,[0,68,4254]...|  4.0|       1.0|
++--------------------+-----+----------+
+only showing top 20 rows
+
+Accuracy: 0.2854237288135593
+Log Loss: 1.9888023462223157
+F1 Score: 0.2538270189703966
