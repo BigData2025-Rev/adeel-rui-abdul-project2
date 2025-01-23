@@ -112,6 +112,7 @@ df = df.withColumn("product_id", col("product_id").cast("string"))
 df = df.filter(col("product_id").rlike(r"^\d{10}$"))
 print("The counts after check product id: " + str(df.count()))
 df = df.filter(trim(col("product_name")) != "")
+df = df.filter(~trim(col("product_name")).startswith("UPDATE")) # there is a strange product named； "UPDATE orders SET product_category=trash;"
 print("The counts after check product name: " + str(df.count()))
 df = df.filter(trim(col("product_category")) != "")
 print("The counts after check product category: " + str(df.count()))

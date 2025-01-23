@@ -1,0 +1,82 @@
+The counts: 15000
+root
+ |-- order_id: long (nullable = true)
+ |-- customer_id: long (nullable = true)
+ |-- customer_name: string (nullable = true)
+ |-- product_id: integer (nullable = true)
+ |-- product_name: string (nullable = true)
+ |-- product_category: string (nullable = true)
+ |-- payment_type: string (nullable = true)
+ |-- qty: integer (nullable = true)
+ |-- price: double (nullable = true)
+ |-- dateTime: timestamp (nullable = true)
+ |-- country: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- ecommerce_website: string (nullable = true)
+ |-- payment_txn_id: long (nullable = true)
+ |-- payment_txn_success: string (nullable = true)
+ |-- failure_reason: string (nullable = true)
+
+Some columns missed:  ['ecommerce_website_name', 'datetime']
+Some columns reduntant:  ['dateTime', 'ecommerce_website']
+
+Columns check:  False
+Fix columns...
+Columns check:  True
+
+Filter null rows (except failure reason column.)
+The counts: 15000
+The counts after filter null: 14850
+
+Check order id, transform to text and remove duplicate rows.
+The counts after check order id: 14850
+
+Check customer id and customer name format, transform to text.
+The counts after check customer id and customer name: 14850
+
+Check product id and product name, category, paymenttype, qty, price.
+The counts: 14850
+The counts after check product id: 14850
+The counts after check product name: 14702
+The counts after check product category: 14702
+The counts after check payment type: 14702
+The counts after check qty and price: 14702
+
+Check datetime format: YYYY-MM-DD HH:MM:SS
+The counts: 14702
+The counts after check datetime: 14564
+
+Check country, city, ecommerce website name
+The counts: 14564
+The counts after check country: 14564
+The counts after check city: 14564
+The counts after check ecommerce website name: 14564
+
+Check payment txn id, payment txn success, failure reason
+One thing to notice: the empty reason in origional dataser is " ", isntead of empty or null.
+I replaced empty reason to "".
+The counts: 14564
+The counts after check payment txn id: 14564
+The counts after check payment txn success: 14564
+The counts after check failure reason: 14564
+
+Final check
+The counts: 14564
+root
+ |-- order_id: string (nullable = true)
+ |-- customer_id: string (nullable = true)
+ |-- customer_name: string (nullable = true)
+ |-- product_id: string (nullable = true)
+ |-- product_name: string (nullable = true)
+ |-- product_category: string (nullable = true)
+ |-- payment_type: string (nullable = true)
+ |-- qty: integer (nullable = true)
+ |-- price: double (nullable = true)
+ |-- datetime: timestamp (nullable = true)
+ |-- country: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- ecommerce_website_name: string (nullable = true)
+ |-- payment_txn_id: string (nullable = true)
+ |-- payment_txn_success: string (nullable = true)
+ |-- failure_reason: string (nullable = true)
+
